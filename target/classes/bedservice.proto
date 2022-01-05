@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.smartbed.grpc";
+option java_outer_classname = "BedServiceImpl";
+package grpc;
+
+// Service Definition
+service BedService {
+
+	rpc AddPatient (AddPatientRequest) returns (AddPatientResponse) {};
+	rpc UploadPatientImage (stream UploadPatientImageRequest) returns (UploadPatientImageResponse) {};
+	rpc CurrentBedUsage (CurrentBedUsageRequest) returns (stream CurrentBedUsageResponse) {};
+
+}
+
+message CurrentBedUsageRequest {
+	int32 min = 1;
+	int32 max = 2;
+}
+
+message CurrentBedUsageResponse {
+	int32 bedCount = 1;
+}
+
+message UploadPatientImageRequest{
+	oneof data{
+		ImageInfo info = 1;
+		bytes chunkData = 2;
+	};
+}
+
+message ImageInfo{
+	string pps = 1;
+	string imageType = 2;
+}
+
+message  UploadPatientImageResponse{
+	string pps = 1;
+	int32 size = 2;
+}
+
+message AddPatientRequest {
+	string first = 1;
+	string last = 2;
+	string pps = 3;
+	enum Gender {
+		MALE = 0;
+		FEMALE = 1;
+		UNSPECIFIED = 2;
+	}
+
+	Gender gender = 4;
+}
+
+message AddPatientResponse {
+	int32 result = 1;
+	string message = 2;
+}

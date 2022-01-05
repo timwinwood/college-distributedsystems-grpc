@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.smartbed.grpc";
+option java_outer_classname = "CommsServiceImpl";
+package grpc;
+
+// Service Definition
+service CommsService {
+
+	rpc SendMessage (stream SendMessageRequest) returns (stream SendMessageResponse) {};
+	rpc UpdateChat (UpdateChatRequest) returns (stream UpdateChatResponse) {};
+}
+
+
+message SendMessageRequest{
+	string user = 1;
+	string message = 2;
+}
+
+message SendMessageResponse{
+	string user = 1;
+	string message = 2;
+}
+
+message UpdateChatRequest {
+	string user = 1;
+}
+
+message UpdateChatResponse {
+	string message = 1;
+}
